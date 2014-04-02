@@ -23,7 +23,6 @@ public class TestCLIArguments{
        assertTrue(args.nodeCount == 10);
        assertTrue(args.seed == 1001);
        assertTrue(args.logFileLocation.equals(""));
-       assertTrue(args.outputFile.equals(""));
     }
     
     @Test
@@ -37,7 +36,6 @@ public class TestCLIArguments{
        assertTrue(args.nodeCount == 10);
        assertTrue(args.seed == 1001);
        assertTrue(args.logFileLocation.equals("test.log"));
-       assertTrue(args.outputFile.equals("test.dot"));
     }
     
     @Test
@@ -51,7 +49,6 @@ public class TestCLIArguments{
        assertTrue(args.nodeCount == 10);
        assertTrue(args.seed == 1001);
        assertTrue(args.logFileLocation.equals(""));
-       assertTrue(args.outputFile.equals(""));
        assertTrue(args.linkType == LINK_TYPE.SMALL_WORLD);
        assertTrue(args.degreeType == DEGREE_TYPE.FIXED);
     }
@@ -67,7 +64,6 @@ public class TestCLIArguments{
        assertTrue(args.nodeCount == 10);
        assertTrue(args.seed == 1001);
        assertTrue(args.logFileLocation.equals(""));
-       assertTrue(args.outputFile.equals(""));
        assertTrue(args.linkType == LINK_TYPE.RANDOM);
        assertTrue(args.degreeType == DEGREE_TYPE.POISSON);
     }
@@ -83,7 +79,6 @@ public class TestCLIArguments{
        assertTrue(args.nodeCount == 10);
        assertTrue(args.seed == 1001);
        assertTrue(args.logFileLocation.equals(""));
-       assertTrue(args.outputFile.equals(""));
        assertTrue(args.linkType == LINK_TYPE.RANDOM);
        assertTrue(args.degreeType == DEGREE_TYPE.POISSON);
     }

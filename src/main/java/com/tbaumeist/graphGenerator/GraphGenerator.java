@@ -1,7 +1,5 @@
 package com.tbaumeist.graphGenerator;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -151,18 +149,8 @@ public class GraphGenerator implements Runnable {
         return null;
     }
     
-    private void writeDOTFile(Topology top, String outPutFile) throws Exception{
+    private void writeDOTFile(Topology top, PrintStream output) throws Exception{
         TopologyFileWriterDOT topWriter = new TopologyFileWriterDOT();
-        
-        if (outPutFile == null || outPutFile.isEmpty()){
-            topWriter.writeDot(top, System.out);
-            LOGGER.info("Wrote topology to STDOUT");
-        } else {
-            PrintStream output = new PrintStream(new FileOutputStream(new File(
-                    outPutFile)));
-            topWriter.writeDot(top, output);
-            output.close();
-            LOGGER.info("Wrote topology to " + args.outputFile);
-        }
+        topWriter.writeDot(top, output);
     }
 }

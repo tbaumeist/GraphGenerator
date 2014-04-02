@@ -27,6 +27,7 @@ public class Main {
             // Generate the graph
             new GraphGenerator(arguments).run();
             
+            arguments.outputFile.flush();
             LOGGER.info("Exiting random graph generator");
         } catch (Exception ex) {
             LOGGER.severe(ex.getMessage());

@@ -1,5 +1,7 @@
 package com.tbaumeist.graphGenerator;
 
+import java.io.File;
+import java.io.PrintStream;
 import java.lang.reflect.Field;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,7 +21,7 @@ public class Arguments {
             .getName());
 
     public String logFileLocation = "";
-    public String outputFile = "";
+    public PrintStream outputFile = null;
 
     public Level logLevel = Level.INFO;
 
@@ -115,8 +117,10 @@ public class Arguments {
                     OPT_LINK_TYPE.getLongOpt()).toUpperCase());
 
         if (cmd.hasOption(OPT_GRAPH_OUTPUT.getLongOpt()))
-            arguments.outputFile = cmd.getOptionValue(OPT_GRAPH_OUTPUT
-                    .getLongOpt());
+            arguments.outputFile = new PrintStream(new File(cmd.getOptionValue(OPT_GRAPH_OUTPUT
+                    .getLongOpt())));
+        else
+            arguments.outputFile = System.out;
 
         return arguments;
     }
