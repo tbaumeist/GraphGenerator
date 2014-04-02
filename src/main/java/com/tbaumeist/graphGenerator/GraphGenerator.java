@@ -4,8 +4,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -38,6 +36,8 @@ public class GraphGenerator implements Runnable {
     public GraphGenerator(Arguments args) throws Exception {
         this.args = args;
         LoggingManager.addLogFile(args.logFileLocation, args.logLevel);
+        
+        LOGGER.info("ARGUMENTS:\n" + args.toString());
     }
 
     public void run() {

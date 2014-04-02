@@ -3,7 +3,7 @@ package com.tbaumeist.graphGenerator.link;
 import org.apache.commons.math3.random.RandomGenerator;
 
 import com.tbaumeist.common.Node;
-import com.tbaumeist.common.Utils.DistanceTools;
+import com.tbaumeist.common.utils.DistanceTools;
 
 import java.util.Arrays;
 import java.util.HashMap;

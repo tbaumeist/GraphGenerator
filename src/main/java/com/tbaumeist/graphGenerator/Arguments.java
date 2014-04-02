@@ -1,6 +1,8 @@
 package com.tbaumeist.graphGenerator;
 
+import java.lang.reflect.Field;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -13,20 +15,25 @@ import com.tbaumeist.graphGenerator.Enums.DEGREE_TYPE;
 import com.tbaumeist.graphGenerator.Enums.LINK_TYPE;
 
 public class Arguments {
+    private static final Logger LOGGER = Logger.getLogger(Arguments.class
+            .getName());
 
     public String logFileLocation = "";
     public String outputFile = "";
-    
+
     public Level logLevel = Level.INFO;
-    
+
     public int seed = 0;
     public int nodeCount = 0;
     public int degreeCount = 0;
-    
+
     public DEGREE_TYPE degreeType = DEGREE_TYPE.FIXED;
     public LINK_TYPE linkType = LINK_TYPE.SMALL_WORLD;
 
-    private static Option OPT_RANDOM_SEED = new Option("s", "seed", true,
+    private static Option OPT_RANDOM_SEED = new Option(
+            "s",
+            "seed",
+            true,
             "The seed for the random number generator (integer). [default] random seed value.");
     private static Option OPT_HELP = new Option("h", "help", false,
             "Print program help manual.");
@@ -46,9 +53,26 @@ public class Arguments {
     protected Arguments() {
     }
 
+    @Override
+    public String toString() {
+        StringBuilder b = new StringBuilder();
+        for (Field f : getClass().getFields()) {
+            b.append(f.getName());
+            b.append(" : ");
+            try {
+                b.append(f.get(this));
+            } catch (Exception e) {
+                LOGGER.severe(e.getMessage());
+            }
+            b.append("\n");
+        }
+
+        return b.toString();
+    }
+
     public static Arguments Parse(String[] args) throws Exception {
         Arguments arguments = new Arguments();
-        
+
         final Options options = generateOptions();
         final CommandLineParser parser = new GnuParser();
         final CommandLine cmd = parser.parse(options, args);
@@ -60,30 +84,40 @@ public class Arguments {
                     options);
             return null;
         }
-        
-        if(!cmd.hasOption(OPT_NODE_COUNT.getLongOpt()))
-            throw new Exception("-"+ OPT_NODE_COUNT.getOpt() + " option is required!");
-        if(!cmd.hasOption(OPT_DEGREE_COUNT.getLongOpt()))
-            throw new Exception("-"+ OPT_DEGREE_COUNT.getOpt() + " option is required!");
-        
-        if(cmd.hasOption(OPT_LOG_FILE.getLongOpt()))
-            arguments.logFileLocation = cmd.getOptionValue(OPT_LOG_FILE.getLongOpt());
 
-        arguments.seed = Integer.parseInt(cmd.getOptionValue(OPT_RANDOM_SEED.getLongOpt(), Integer.toString((int) System.currentTimeMillis())));
-        
-        arguments.nodeCount = Integer.parseInt(cmd.getOptionValue(OPT_NODE_COUNT.getLongOpt()));
-        
-        arguments.degreeCount = Integer.parseInt(cmd.getOptionValue(OPT_DEGREE_COUNT.getLongOpt()));
-        
-        if(cmd.hasOption(OPT_DEGREE_TYPE.getLongOpt()))
-            arguments.degreeType = DEGREE_TYPE.valueOf(cmd.getOptionValue(OPT_DEGREE_TYPE.getLongOpt()).toUpperCase());
+        if (!cmd.hasOption(OPT_NODE_COUNT.getLongOpt()))
+            throw new Exception("-" + OPT_NODE_COUNT.getOpt()
+                    + " option is required!");
+        if (!cmd.hasOption(OPT_DEGREE_COUNT.getLongOpt()))
+            throw new Exception("-" + OPT_DEGREE_COUNT.getOpt()
+                    + " option is required!");
 
-        if(cmd.hasOption(OPT_LINK_TYPE.getLongOpt()))
-            arguments.linkType = LINK_TYPE.valueOf(cmd.getOptionValue(OPT_LINK_TYPE.getLongOpt()).toUpperCase());
-        
-        if(cmd.hasOption(OPT_GRAPH_OUTPUT.getLongOpt()))
-            arguments.outputFile = cmd.getOptionValue(OPT_GRAPH_OUTPUT.getLongOpt());
-        
+        if (cmd.hasOption(OPT_LOG_FILE.getLongOpt()))
+            arguments.logFileLocation = cmd.getOptionValue(OPT_LOG_FILE
+                    .getLongOpt());
+
+        arguments.seed = Integer.parseInt(cmd.getOptionValue(
+                OPT_RANDOM_SEED.getLongOpt(),
+                Integer.toString((int) System.currentTimeMillis())));
+
+        arguments.nodeCount = Integer.parseInt(cmd
+                .getOptionValue(OPT_NODE_COUNT.getLongOpt()));
+
+        arguments.degreeCount = Integer.parseInt(cmd
+                .getOptionValue(OPT_DEGREE_COUNT.getLongOpt()));
+
+        if (cmd.hasOption(OPT_DEGREE_TYPE.getLongOpt()))
+            arguments.degreeType = DEGREE_TYPE.valueOf(cmd.getOptionValue(
+                    OPT_DEGREE_TYPE.getLongOpt()).toUpperCase());
+
+        if (cmd.hasOption(OPT_LINK_TYPE.getLongOpt()))
+            arguments.linkType = LINK_TYPE.valueOf(cmd.getOptionValue(
+                    OPT_LINK_TYPE.getLongOpt()).toUpperCase());
+
+        if (cmd.hasOption(OPT_GRAPH_OUTPUT.getLongOpt()))
+            arguments.outputFile = cmd.getOptionValue(OPT_GRAPH_OUTPUT
+                    .getLongOpt());
+
         return arguments;
     }
 
@@ -106,9 +140,9 @@ public class Arguments {
             descBuilder.append(" ").append(type);
         }
         OPT_LINK_TYPE.setDescription(descBuilder.toString());
-        
-        //OPT_NODE_COUNT.setRequired(true);
-        //OPT_DEGREE_COUNT.setRequired(true);
+
+        // OPT_NODE_COUNT.setRequired(true);
+        // OPT_DEGREE_COUNT.setRequired(true);
 
         options.addOption(OPT_HELP);
         options.addOption(OPT_LOG_FILE);
@@ -118,7 +152,7 @@ public class Arguments {
         options.addOption(OPT_DEGREE_TYPE);
         options.addOption(OPT_LINK_TYPE);
         options.addOption(OPT_GRAPH_OUTPUT);
-        
+
         return options;
     }
 
