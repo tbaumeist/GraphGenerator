@@ -2,6 +2,9 @@ package com.tbaumeist.graphGenerator;
 
 import static org.junit.Assert.*;
 
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
 import org.junit.Test;
 
 import com.tbaumeist.graphGenerator.Enums.DEGREE_TYPE;
@@ -30,6 +33,9 @@ public class TestCLIArguments{
         
        String[] strArgs = new String[]{"-n", "10", "-d", "3", "-s", "1001", "-o", "test.dot", "-f", "test.log"};
        Arguments args = Arguments.Parse(strArgs);
+       
+       args.outputFile.close();
+       Files.delete(Paths.get("test.dot"));
        
        assertTrue(true);
        assertTrue(args.degreeCount == 3);
